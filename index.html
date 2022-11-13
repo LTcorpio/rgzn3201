@@ -4,20 +4,15 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-    <meta name="generator" content="Hugo 0.92.0">
+    <meta name="description" content="宁波职业技术学院 电子信息工程学院 人工智能3201">
     <title>人工智能3201</title>
     <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.2.2/css/bootstrap.min.css" rel="stylesheet">
-    <meta name="theme-color" content="#7952b3">
 </head>
 
 <body class="d-flex flex-column h-100">
     <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
         <div class="container">
-            <a class="navbar-brand" href="/">
-                人工智能 3201
-            </a>
+            <a class="navbar-brand" href="/">人工智能 3201</a>
         </div>
     </nav>
 
@@ -25,18 +20,15 @@
         <div class="p-5 mb-4 bg-light">
             <div class="container">
                 <h1 class="display-6 fw-bold">视频预览</h1>
-                <div class="alert alert-primary" role="alert" id="status">
-                    
-                </div>
+                <div class="alert alert-primary" role="alert" id="status"></div>
+                <div id="catch-the-cat" class="text-center"></div>
                 <div class="text-center" id="video-container">
-                    <video width="100%" controls id="video1">
-                        
-                    </video>
+                    <video width="100%" controls id="video1"></video>
                 </div>
-                无法打开？
+                <span>不想等待？或者视频加载失败？请</span>
                 <a href="https://caiyun.139.com/m/i?0e5Cg7A7UkaLT" class="btn btn-sm btn-outline-secondary"
                     type="button">在网盘里浏览它</a>
-                (提取码:oR3Y)
+                <span>(提取码:oR3Y)</span>
             </div>
         </div>
     </main>
@@ -48,13 +40,20 @@
     </footer>
 </body>
 <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.2.2/js/bootstrap.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/phaser/3.55.2/phaser.min.js"></script>
+<script src="js/catch-the-cat.js"></script>
 <script>
+    window.game = new CatchTheCatGame({w:10,h:10,r:10,backgroundColor:0xeeeeee,parent:'catch-the-cat',statusBarAlign:'center',credit:'LTcorpio'});
+
     var hasLoaded = false;
     var load_status = document.getElementById("status")
-    load_status.innerHTML = '为了良好的视频播放效果，请耐心等待视频加载……(可能需要1分钟左右的时间，辛苦您耐心等待~)'
+    load_status.innerHTML = '为了良好的视频播放效果，请耐心等待视频加载(可能需要1-2分钟左右的时间)。等待是枯燥的，玩个小游戏先~'
 
     var video_container = document.getElementById("video-container")
     video_container.style.display = 'none'
+
+    var game_container = document.getElementById("catch-the-cat")
+    game_container.style.display = 'block'
 
     var video = document.getElementById("video1")
     var url = "https://glyon-my.sharepoint.com/personal/ltcorpio_glyon_onmicrosoft_com/_layouts/15/download.aspx?share=EXI7m1BM4zZFsl9bdfAy9ZgBme7IE13DME5mvTcMRnFGsA"
@@ -75,7 +74,8 @@
         video.innerHTML = `<source src="${rUrl}" type="video/mp4">`
         hasLoaded = true;
         load_status.className = "alert alert-success"
-        load_status.innerHTML = '视频资源加载完成，即将开始播放……'
+        load_status.innerHTML = '视频资源加载完成，请点击播放按钮开始播放。'
+        game_container.style.display = 'none'
         video_container.style.display = 'block'
     };
     xhr.onerror = function () {
