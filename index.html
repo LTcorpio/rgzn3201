@@ -25,13 +25,7 @@
         <div class="p-5 mb-4 bg-light rounded-6">
             <div class="container">
                 <h1 class="display-6 fw-bold">视频预览</h1>
-                <div class="text-center">
-                    <video width="100%" controls>
-                        <source
-                            src="https://glyon-my.sharepoint.com/personal/ltcorpio_glyon_onmicrosoft_com/_layouts/52/download.aspx?share=ERWpFW5WaoFOr45_Sa-FMWMBlR_5VjKT-23ayTpXoi7dFw"
-                            type="video/mp4">
-                    </video>
-                </div>
+                <div class="m-4 text-center" id="video"></div>
                 无法打开？
                 <a href="https://caiyun.139.com/m/i?0e5Cg7A7UkaLT" class="btn btn-sm btn-outline-secondary"
                     type="button">在网盘里浏览它</a>
@@ -47,5 +41,13 @@
     </footer>
 </body>
 <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.2.2/js/bootstrap.min.js"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.js"></script>
+<script>
+    const dp = new DPlayer({
+        container: document.getElementById('video'),
+        video: {
+            url: 'https://glyon-my.sharepoint.com/personal/ltcorpio_glyon_onmicrosoft_com/_layouts/52/download.aspx?share=ERWpFW5WaoFOr45_Sa-FMWMBlR_5VjKT-23ayTpXoi7dFw',
+        },
+    });
+</script>
 </html>
