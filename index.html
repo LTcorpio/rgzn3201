@@ -22,10 +22,17 @@
     </nav>
 
     <main class="container">
-        <div class="p-5 mb-4 bg-light rounded-6">
+        <div class="p-5 mb-4 bg-light">
             <div class="container">
                 <h1 class="display-6 fw-bold">视频预览</h1>
-                <div class="m-4 text-center" id="video"></div>
+                <div class="alert alert-primary" role="alert" id="status">
+                    
+                </div>
+                <div class="text-center" id="video-container">
+                    <video width="100%" controls id="video1">
+                        
+                    </video>
+                </div>
                 无法打开？
                 <a href="https://caiyun.139.com/m/i?0e5Cg7A7UkaLT" class="btn btn-sm btn-outline-secondary"
                     type="button">在网盘里浏览它</a>
@@ -41,13 +48,40 @@
     </footer>
 </body>
 <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.2.2/js/bootstrap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.js"></script>
 <script>
-    const dp = new DPlayer({
-        container: document.getElementById('video'),
-        video: {
-            url: 'https://glyon-my.sharepoint.com/personal/ltcorpio_glyon_onmicrosoft_com/_layouts/52/download.aspx?share=ERWpFW5WaoFOr45_Sa-FMWMBlR_5VjKT-23ayTpXoi7dFw',
-        },
-    });
+    var hasLoaded = false;
+    var load_status = document.getElementById("status")
+    load_status.innerHTML = '为了良好的视频播放效果，请耐心等待视频加载……(可能需要1分钟左右的时间，辛苦您耐心等待~)'
+
+    var video_container = document.getElementById("video-container")
+    video_container.style.display = 'none'
+
+    var video = document.getElementById("video1")
+    var url = "https://glyon-my.sharepoint.com/personal/ltcorpio_glyon_onmicrosoft_com/_layouts/15/download.aspx?share=EXI7m1BM4zZFsl9bdfAy9ZgBme7IE13DME5mvTcMRnFGsA"
+    
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', url, true);
+    xhr.responseType = 'arraybuffer';
+    xhr.send();
+    xhr.onload = function () {
+        if (xhr.status !== 200) {
+            return;
+        }
+        console.log("等待加载视频……")
+        var binaryData = new Uint8Array(xhr.response);
+        var rUrl = window.URL.createObjectURL(new Blob([binaryData], {
+            type: "video/mp4"
+        }));
+        video.innerHTML = `<source src="${rUrl}" type="video/mp4">`
+        hasLoaded = true;
+        load_status.className = "alert alert-success"
+        load_status.innerHTML = '视频资源加载完成，即将开始播放……'
+        video_container.style.display = 'block'
+    };
+    xhr.onerror = function () {
+        load_status.className = "alert alert-danger"
+        load_status.innerHTML = "视频获取失败，请从网盘中获取视频！"
+    };
 </script>
+
 </html>
