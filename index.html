@@ -95,6 +95,8 @@
         xhr.onerror = function () {
             load_status.className = "alert alert-danger"
             load_status.innerHTML = "视频获取失败，请从网盘中获取视频！"
+            isLoad.innerHTML = '加载视频'
+            isLoad.removeAttribute("disabled")
         };
     }
 </script>
